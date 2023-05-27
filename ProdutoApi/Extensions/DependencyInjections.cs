@@ -18,7 +18,10 @@ namespace ProdutoApi.Extensions
             builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
             builder.Services.AddScoped<IGalvanicaRepository, GalvanicaRepository>();
 
-            builder.Services.AddMediatR(typeof(AdicionarProduto));
+            builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<IProdutoRepository>();
+            });
         }
 
         public static void ExecutarMigrations(this WebApplication app)

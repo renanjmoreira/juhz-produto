@@ -13,13 +13,12 @@ namespace Application.Galvanicas.CommandHandlers
             _repositorio = repositorio;
         }
 
-        public async Task<Unit> Handle(AlterarGalvanica request, CancellationToken cancellationToken)
+        public async Task Handle(AlterarGalvanica request, CancellationToken cancellationToken)
         {
             var galvanica = await _repositorio.ObterGalvanica(request.Id, cancellationToken) ?? throw new Exception("Galvanica não encontrado.");
             galvanica = request.ObterGalvanicaAlterada(galvanica);
 
             await _repositorio.Alterar(galvanica, cancellationToken);
-            return Unit.Value;
         }
     }
 }

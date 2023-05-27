@@ -16,7 +16,7 @@ namespace Application.Produtos.CommandHandlers
             _repositorioGalvanica = repositorioGalvanica;
         }
 
-        public async Task<Unit> Handle(AdicionarProduto request, CancellationToken cancellationToken)
+        public async Task Handle(AdicionarProduto request, CancellationToken cancellationToken)
         {
             var galvanica = await _repositorioGalvanica.ObterGalvanica(request.IdGalvanica, cancellationToken) ?? throw new Exception("Galvanica não encontrado.");
             var produto = request.ObterProduto();
@@ -29,7 +29,6 @@ namespace Application.Produtos.CommandHandlers
             produto.CalcularPreco(galvanica);
 
             await _repositorio.Adicionar(produto, cancellationToken);
-            return Unit.Value;
         }
     }
 }

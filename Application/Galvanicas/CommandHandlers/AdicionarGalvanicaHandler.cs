@@ -14,11 +14,10 @@ namespace Application.Galvanicas.CommandHandlers
             _repositorio = repositorio;
         }
 
-        public async Task<Unit> Handle(AdicionarGalvanica request, CancellationToken cancellationToken)
+        public async Task Handle(AdicionarGalvanica request, CancellationToken cancellationToken)
         {
             var galvanica = request.ObterGalvanica();
             await _repositorio.Adicionar(galvanica, cancellationToken);
-            return Unit.Value;
         }
     }
 }
