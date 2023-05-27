@@ -1,6 +1,8 @@
 ﻿using Application.Produtos.Commands;
 using Application.Produtos.Queries;
+using Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using ProdutoApi.Abstractions;
 using ProdutoApi.Filters.Produtos;
 
@@ -23,7 +25,7 @@ namespace ProdutoApi.EndpointDefinitions
             produto.MapPut("/", AlterarProduto);
         }
 
-        private async Task<IResult> ObterProdutoPorId(IMediator mediator, Guid id)
+        private async Task<Ok<Produto>> ObterProdutoPorId(IMediator mediator, Guid id)
         {
             var command = new ObterProdutoPorId(id);
             var produto = await mediator.Send(command);
@@ -31,7 +33,7 @@ namespace ProdutoApi.EndpointDefinitions
             return TypedResults.Ok(produto);
         }
 
-        private async Task<IResult> ObterProdutos(IMediator mediator)
+        private async Task<Ok<ICollection<Produto>>> ObterProdutos(IMediator mediator)
         {
             var command = new ObterProdutos();
             var produtos = await mediator.Send(command);
@@ -39,13 +41,13 @@ namespace ProdutoApi.EndpointDefinitions
             return TypedResults.Ok(produtos);
         }
 
-        private async Task<IResult> AdicionarProduto(IMediator mediator, AdicionarProduto command)
+        private async Task<Ok> AdicionarProduto(IMediator mediator, AdicionarProduto command)
         {
             await mediator.Send(command);
             return TypedResults.Ok();
         }
 
-        private async Task<IResult> AlterarProduto(IMediator mediator, AlterarProduto command)
+        private async Task<Ok> AlterarProduto(IMediator mediator, AlterarProduto command)
         {
             await mediator.Send(command);
             return TypedResults.Ok();

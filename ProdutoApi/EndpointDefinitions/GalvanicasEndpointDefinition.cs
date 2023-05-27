@@ -2,7 +2,9 @@
 using Application.Galvanicas.Queries;
 using Application.Produtos.Commands;
 using Application.Produtos.Queries;
+using Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProdutoApi.Abstractions;
 using ProdutoApi.Filters.Galvanicas;
@@ -26,29 +28,29 @@ namespace ProdutoApi.EndpointDefinitions
             galvanica.MapPut("/", AlterarGalvanica);
         }
 
-        private async Task<IResult> ObterGalvanicaPorId(IMediator mediator, Guid id)
+        private async Task<Ok<Galvanica>> ObterGalvanicaPorId(IMediator mediator, Guid id)
         {
             var command = new ObterGalvanicaPorId(id);
-            var produto = await mediator.Send(command);
+            var galvanica = await mediator.Send(command);
 
-            return TypedResults.Ok(produto);
+            return TypedResults.Ok(galvanica);
         }
 
-        private async Task<IResult> ObterGalvanicas(IMediator mediator)
+        private async Task<Ok<ICollection<Galvanica>>> ObterGalvanicas(IMediator mediator)
         {
             var command = new ObterGalvanicas();
-            var produtos = await mediator.Send(command);
+            var galvanicas = await mediator.Send(command);
 
-            return TypedResults.Ok(produtos);
+            return TypedResults.Ok(galvanicas);
         }
 
-        private async Task<IResult> AdicionarGalvanica(IMediator mediator, AdicionarGalvanica command)
+        private async Task<Ok> AdicionarGalvanica(IMediator mediator, AdicionarGalvanica command)
         {
             await mediator.Send(command);
             return TypedResults.Ok();
         }
 
-        private async Task<IResult> AlterarGalvanica(IMediator mediator, AlterarGalvanica command)
+        private async Task<Ok> AlterarGalvanica(IMediator mediator, AlterarGalvanica command)
         {
             await mediator.Send(command);
             return TypedResults.Ok();
