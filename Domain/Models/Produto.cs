@@ -11,19 +11,19 @@ namespace Domain.Models
         public string NomeFornecedor { get; private set; }
         public string CodigoFornecedor { get; private set; }
         public Banho Banho { get; private set; }
-        public decimal? Peso { get; private set; }
-        public int? MilesimosCamada { get; private set; }
+        public decimal Peso { get; private set; }
+        public int MilesimosCamada { get; private set; }
         public decimal Custo { get; private set; }
-        public decimal? CustoBanho { get; private set; }
+        public decimal CustoBanho { get; private set; }
         public decimal Margem { get; private set; }
-        public decimal? Preco { get; private set; }
+        public decimal Preco { get; private set; }
 
         private readonly List<Estoque> _estoque = new();
         public IReadOnlyList<Estoque> Estoque => _estoque.AsReadOnly();
 
         protected Produto() { }
 
-        public Produto(string nome, string descricao, string nomeFornecedor, string codigoFornecedor, Banho banho, decimal? peso, int? milesimosCamada, decimal custo)
+        public Produto(string nome, string descricao, string nomeFornecedor, string codigoFornecedor, Banho banho, decimal peso, int milesimosCamada, decimal custo, decimal custoBanho, decimal margem, decimal preco)
         {
             Nome = nome;
             Descricao = descricao;
@@ -33,9 +33,12 @@ namespace Domain.Models
             Peso = peso;
             MilesimosCamada = milesimosCamada;
             Custo = custo;
+            CustoBanho = custoBanho;
+            Margem = margem;
+            Preco = preco;
         }
 
-        public Produto Alterar(string nome, string descricao, string nomeFornecedor, string codigoFornecedor, Banho banho, decimal? peso, int? milesimosCamada, decimal custo)
+        public Produto Alterar(string nome, string descricao, string nomeFornecedor, string codigoFornecedor, Banho banho, decimal peso, int milesimosCamada, decimal custo, decimal custoBanho, decimal margem, decimal preco)
         {
             Nome = nome;
             Descricao = descricao;
@@ -45,6 +48,9 @@ namespace Domain.Models
             Peso = peso;
             MilesimosCamada = milesimosCamada;
             Custo = custo;
+            CustoBanho = custoBanho;
+            Margem = margem;
+            Preco = preco;
 
             return this;
         }
@@ -63,13 +69,15 @@ namespace Domain.Models
             }
         }
 
-        public void CalcularPreco(Galvanica galvanica)
+        public bool ValidarCalculoPreco(Galvanica galvanica)
         {
             var custoBanho = CalcularCustoBanho(galvanica);
-            Preco = (Custo + custoBanho) * (1 + Margem / 100);
+            var preco = (Custo + CustoBanho) * (1 + Margem / 100);
+
+            return (CustoBanho == custoBanho && preco == Preco);
         }
 
-        private decimal? CalcularCustoBanho(Galvanica galvanica)
+        private decimal CalcularCustoBanho(Galvanica galvanica)
         {
             if (Peso > 0)
             {

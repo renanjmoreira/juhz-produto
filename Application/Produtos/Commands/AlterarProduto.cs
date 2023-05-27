@@ -14,13 +14,15 @@ namespace Application.Produtos.Commands
         public string NomeFornecedor { get; set; }
         public string CodigoFornecedor { get; set; }
         public Banho Banho { get; set; }
-        public int? MilesimosCamada { get; set; }
         public decimal Peso { get; set; }
+        public int MilesimosCamada { get; set; }
         public decimal Custo { get; set; }
+        public decimal CustoBanho { get; set; }
         public decimal Margem { get; set; }
+        public decimal Preco { get; set; }
         public List<EstoqueAdicionarProduto> Estoque { get; set; }
 
-        public Produto ObterProdutoAlterado(Produto produto) => produto.Alterar(Nome, Descricao, NomeFornecedor, CodigoFornecedor, Banho, Peso, MilesimosCamada, Custo);
+        public Produto ObterProdutoAlterado(Produto produto) => produto.Alterar(Nome, Descricao, NomeFornecedor, CodigoFornecedor, Banho, Peso, MilesimosCamada, Custo, CustoBanho, Margem, Preco);
     }
 
     public class EstoqueEditarProduto

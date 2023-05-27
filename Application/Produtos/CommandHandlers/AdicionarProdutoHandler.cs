@@ -26,7 +26,10 @@ namespace Application.Produtos.CommandHandlers
                 produto.AdicionarEstoque(estoque.Medida, estoque.Quantidade);
             }
 
-            produto.CalcularPreco(galvanica);
+            if (!produto.ValidarCalculoPreco(galvanica))
+            {
+                throw new Exception("Calculo de Preço inválido.");
+            }
 
             await _repositorio.Adicionar(produto, cancellationToken);
         }

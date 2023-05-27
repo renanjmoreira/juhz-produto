@@ -20,6 +20,12 @@ namespace ProdutoApi.Filters.Produtos
             if (!Enum.IsDefined(typeof(Banho), entidade.Banho))
                 return await Task.FromResult(Results.BadRequest());
 
+            if (entidade.Peso <= 0)
+                return await Task.FromResult(Results.BadRequest());
+
+            if (entidade.MilesimosCamada <= 0)
+                return await Task.FromResult(Results.BadRequest());
+
             if (entidade.Custo <= 0)
                 return await Task.FromResult(Results.BadRequest());
 

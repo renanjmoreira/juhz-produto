@@ -1,14 +1,12 @@
 ﻿using Application.Abstractions;
-using Application.Produtos.Commands;
 using Infrastructure;
 using Infrastructure.Repositories;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProdutoApi.Abstractions;
 
 namespace ProdutoApi.Extensions
 {
-    public static class DependencyInjections
+    public static class ApiExtensions
     {
         public static void RegistrarContexto(this WebApplicationBuilder builder)
         {

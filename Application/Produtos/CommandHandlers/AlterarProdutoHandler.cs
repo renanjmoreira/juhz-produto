@@ -24,9 +24,12 @@ namespace Application.Produtos.CommandHandlers
             foreach (var estoque in request.Estoque)
             {
                 produto.AdicionarEstoque(estoque.Medida, estoque.Quantidade);
-            }
+            } 
 
-            produto.CalcularPreco(galvanica);
+            if (!produto.ValidarCalculoPreco(galvanica))
+            {
+                throw new Exception("Calculo de Preço inválido.");
+            }
 
             await _repositorio.Alterar(produto, cancellationToken);
         }
